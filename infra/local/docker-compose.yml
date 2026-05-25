@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # Emulador oficial de AWS DynamoDB
+  dynamodb-local:
+    image: amazon/dynamodb-local:latest
+    container_name: dbae-dynamodb-local
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    ports:
+      - "8000:8000"
+    volumes:
+      - dynamodb_data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
+    restart: unless-stopped
+
+  # LocalStack configurado únicamente para SQS
+  localstack:
+    image: localstack/localstack:latest
+    container_name: dbae-localstack-sqs
+    ports:
+      - "4566:4566"            # Puerto unificado de LocalStack
+    environment:
+      - SERVICES=sqs           # Restringimos el alcance solo a SQS
+      - AWS_DEFAULT_REGION=us-east-1
+    volumes:
+      - localstack_data:/var/lib/localstack
+    restart: unless-stopped
+
+volumes:
+  dynamodb_data:
+    driver: local
+  localstack_data:
+    driver: local
