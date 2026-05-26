@@ -5,6 +5,7 @@ services:
   dynamodb-local:
     image: amazon/dynamodb-local:latest
     container_name: dbae-dynamodb-local
+    user: root
     command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
     ports:
       - "8000:8000"
@@ -24,6 +25,7 @@ services:
       - AWS_DEFAULT_REGION=us-east-1
     volumes:
       - localstack_data:/var/lib/localstack
+      - ./scripts:/etc/localstack/init/ready.d
     restart: unless-stopped
 
 volumes:
