@@ -1,0 +1,8 @@
+{
+  "name": "distributed-billing-audit-engine",
+  "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "devDependencies": {}
+}
